@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Gerenciador_de_Conteudo.Utils"
+             x:Class="Gerenciador_de_Conteudo.Views.GestaoConteudosPage">
+
+    <ContentPage.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+	</ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20" HorizontalOptions="LayoutOptions.Center" WidthRequest="500">
+			<StackLayout Spacing="20" IsVisible="{Binding IsCriadorSelecionado, Converter={StaticResource InverseBooleanConverter}}">
+				<StackLayout Spacing="10">
+					<Label Text="Adicionar novo criador" FontSize="18" FontAttributes="Bold" />
+					<Entry Placeholder="Nome do Criador" Text="{Binding NovoCriadorNome}" />
+					<Button Text="Adicionar" Command="{Binding AdicionarNovoCriadorCommand}" />
+				</StackLayout>
+
+				<Label Text="OU" FontSize="20" HorizontalOptions="Center" FontAttributes="Bold" />
+
+				<StackLayout Spacing="10">
+					<Label Text="Selecione um criador existente" FontSize="18" FontAttributes="Bold" />
+					<Picker Title="Selecionar" ItemsSource="{Binding Criadores}"
+                            SelectedItem="{Binding CriadorSelecionado}" ItemDisplayBinding="{Binding Nome}" />
+				</StackLayout>
+			</StackLayout>
+
+			<StackLayout Spacing="20" IsVisible="{Binding IsCriadorSelecionado}">
+			    <Label Text="{Binding CriadorSelecionado.Nome} " FontSize="18" FontAttributes="Bold" />
+            
+                <StackLayout Spacing="10">
+                    <Label Text="Adicionar novo conteúdo para o criador" FontSize="18" FontAttributes="Bold" />
+					
+                    <Entry Placeholder="Nome do Conteúdo" Text="{Binding NovoConteudoNome}" />
+					<Entry Placeholder="Tipo do conteudo: Música, Vídeo, Podcast, etc." Text="{Binding NovoConteudoTipo}" />
+
+                    <Button Text="Adicionar" Command="{Binding AdicionarConteudoCommand}" />
+					
+                    <Label Text="{Binding CriadorSelecionado.Nome, StringFormat='Conteúdos de {0}'}" FontSize="18" FontAttributes="Bold" Padding="0,30,0,0" />
+
+                    <CollectionView ItemsSource="{Binding Conteudos}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame CornerRadius="10" Padding="15" HasShadow="True">
+                                    <Grid Padding="0" ColumnDefinitions="*, Auto" RowDefinitions="Auto">
+                                        <StackLayout Grid.Column="0" Spacing="2">
+                                            <Label Text="{Binding Titulo}" FontSize="16" FontAttributes="Bold" />
+                                            <Label Text="{Binding Tipo}" FontSize="14" />
+                                        </StackLayout>
+
+                                        <Label Text="{Binding PlaylistsCount, StringFormat='Playlists: {0}'}"
+                                           FontSize="14"
+                                           TextColor="#007ACC"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalTextAlignment="End"
+                                           FontAttributes="Bold"
+                                           Grid.Column="1" 
+                                        />
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+			</StackLayout>
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>
