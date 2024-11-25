@@ -36,7 +36,6 @@ namespace Gerenciador_de_Conteudo.Views
 
             BindingContext = this;
 
-            // Chame o método para buscar os criadores ao carregar a página
             _ = BuscarCriadores();
         }
 
@@ -112,7 +111,6 @@ namespace Gerenciador_de_Conteudo.Views
 
         private async Task AdicionarConteudo()
         {
-            // Adicionar conteúdo (rota: POST /api/conteudos
 
             if (CriadorSelecionado == null)
             {
